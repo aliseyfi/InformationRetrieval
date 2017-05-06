@@ -78,9 +78,9 @@ class InformationRetrieval:
     # Prints out feature scores for each query-document pairing
     def display_scores(self):
         for query_index, query in enumerate(self.queries):
-            print("Query %i" % query_index)
+            print("Query %i: %s" % (query_index, query.text))
             for document_index, score in enumerate(query.scores):
-                print("\tDocument %i" % document_index)
+                print("\tDocument %i: %s" % (document_index, self.documents[document_index].url))
                 for feature_name in score.scores:
                     print("\t\t", feature_name, score.scores[feature_name])
 

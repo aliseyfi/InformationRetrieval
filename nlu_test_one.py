@@ -14,11 +14,15 @@ retrieval.add_features(['keywords'])
 # Add a test query
 retrieval.add_source("Gun should be outlawed in the United States", SourceType.query)
 retrieval.add_source("The civil rights movement was a turning point in the US", SourceType.query)
+retrieval.add_source("Dogs are a great pet especially for Veterans", SourceType.query)
+retrieval.add_source("Cats are not good pets for little kids", SourceType.query)
 
 # Add a test document
 retrieval.add_source("http://gun-control.procon.org", SourceType.document)
 retrieval.add_source("https://en.wikipedia.org/wiki/African-American_Civil_Rights_Movement_(1954–1968)",
                      SourceType.document)
+retrieval.add_source("https://en.wikipedia.org/wiki/Dog", SourceType.document)
+retrieval.add_source("https://en.wikipedia.org/wiki/Martin_Luther_King_Jr.", SourceType.document)
 
 retrieval.score_sources()
 
