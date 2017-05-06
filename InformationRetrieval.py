@@ -83,5 +83,6 @@ class InformationRetrieval:
                 print("\tDocument %i: %s" % (document_index, self.documents[document_index].url))
                 for feature_name in score.scores:
                     print("\t\t", feature_name, score.scores[feature_name])
+                print("\t\t", "total", score.total_score())
 
 

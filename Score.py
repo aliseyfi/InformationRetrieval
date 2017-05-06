@@ -10,7 +10,7 @@ class Score:
         self.scores = {}
 
     # Sums scores for all features and returns the result
-    def aggregate_score(self):
+    def total_score(self):
         return sum(self.scores.values())
 
     # Calculates aggregate score for this query-document pair by individually
@@ -35,7 +35,7 @@ class Score:
     @staticmethod
     def element_score(query_element, document_element, feature):
         # These keys should be different for different features
-        if feature.name == "keywords":
+        if feature.name == "keywords" or feature.name == "concepts":
             return query_element['relevance'] * document_element['relevance'] * \
                    Score.element_similarity(query_element, document_element, feature)
 
@@ -43,7 +43,7 @@ class Score:
     @staticmethod
     def element_similarity(query_element, document_element, feature):
         # Keys for this need to be different for different features
-        if feature.name == "keywords":
+        if feature.name == "keywords" or feature.name == "concepts":
             return Score.similarity(query_element['text'], document_element['text'])
         return 1
 

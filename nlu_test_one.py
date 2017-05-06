@@ -9,7 +9,7 @@ retrieval = InformationRetrieval(username=username,
                                  password=password)
 
 # Add the list of wanted features
-retrieval.add_features(['keywords'])
+retrieval.add_features(['keywords', 'concepts'])
 
 # Add a test query
 retrieval.add_source("Gun should be outlawed in the United States", SourceType.query)
@@ -28,4 +28,6 @@ retrieval.score_sources()
 
 retrieval.display_scores()
 
+# print(retrieval.queries[0].analysis['concepts'])
+# print(retrieval.documents[0].analysis['concepts'])
 
