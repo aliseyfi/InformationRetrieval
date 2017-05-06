@@ -1,11 +1,11 @@
 import watson_developer_cloud
-import watson_developer_cloud.natural_language_understanding.features.v1 as features
 
 from SourceType import *
 from Source import *
 from Document import *
 from Query import *
 from Score import *
+from Feature import *
 
 
 class InformationRetrieval:
@@ -15,20 +15,16 @@ class InformationRetrieval:
                                                                          username=username,
                                                                          password=password)
         self.features = []
-        self.feature_names = []
         self.queries = []
         self.documents = []
 
     def add_features(self, feature_names):
-        self.feature_names = feature_names
-        feature_name_mappings = {'keywords': features.Keywords(),
-                                 'entities': features.Entities(),
-                                 'concepts': features.Concepts(),
-                                 'categories': features.Categories()}
+
         problem_features = []
         for feature_number, name in enumerate(feature_names):
-            if name in feature_name_mappings:
-                self.features.append(feature_name_mappings[name])
+            feature = Feature(name)
+            if feature.element is not None:
+                self.features.append(feature)
             else:
                 problem_features.append(name)
         if len(problem_features) > 0:
@@ -38,27 +34,27 @@ class InformationRetrieval:
 
     def analyze_source(self, source, kind):
         if SourceType.query == kind:
-            return self.nlu.analyze(text=source.text, features=self.features)
+            return self.nlu.analyze(text=source.text, features=self.feature_elements())
         elif SourceType.document == kind:
-            return self.nlu.analyze(url=source.url, features=self.features)
+            return self.nlu.analyze(url=source.url, features=self.feature_elements())
 
     def add_source(self, data, kind):
         if SourceType.query == kind:
-            query = Query(text=data, features=self.features)
+            query = Query(text=data, features=self.feature_elements())
             query.analysis = self.analyze_source(source=query, kind=SourceType.query)
             self.queries.append(query)
 
         elif SourceType.document == kind:
-            document = Document(url=data, features=self.features)
+            document = Document(url=data, features=self.feature_elements())
             document.analysis = self.analyze_source(source=document, kind=SourceType.document)
             self.documents.append(document)
 
     # Compares sources by calculating the score for the 2 sources for all features
     # - the calculated score is added to the given query's score list
-    def compare_sources(self, query_index, document_index, feature_names):
+    def compare_sources(self, query_index, document_index, features):
         query = self.queries[query_index]
         document = self.documents[document_index]
-        score = Score(query, document, feature_names)
+        score = Score(query, document, features)
         score.calculate_feature_scores()
         return score
 
@@ -68,8 +64,16 @@ class InformationRetrieval:
         for query_index in range(len(self.queries)):
             updated_scores = []
             for document_index in range(len(self.documents)):
-                updated_scores.append(self.compare_sources(query_index, document_index, self.feature_names))
+                updated_scores.append(self.compare_sources(query_index, document_index, self.features))
             self.queries[query_index].scores = updated_scores
+
+    # Returns array of only the feature elements
+    def feature_elements(self):
+        return [feature.element for feature in self.features]
+
+    # Returns array of only the feature names
+    def feature_names(self):
+        return [feature.name for feature in self.features]
 
     # Prints out feature scores for each query-document pairing
     def display_scores(self):
