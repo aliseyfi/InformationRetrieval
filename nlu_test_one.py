@@ -9,15 +9,19 @@ retrieval = InformationRetrieval(username=username,
                                  password=password)
 
 # Add the list of wanted features
-retrieval.add_features(['keywords', 'concepts', 'entities', 'categories'])
+retrieval.add_features(['keywords'])
 
 # Add a test query
 retrieval.add_source("Gun should be outlawed in the United States", SourceType.query)
-print(retrieval.queries[0].analysis['keywords'])
+retrieval.add_source("The civil rights movement was a turning point in the US", SourceType.query)
 
 # Add a test document
 retrieval.add_source("http://gun-control.procon.org", SourceType.document)
-print(retrieval.documents[0].analysis['keywords'])
+retrieval.add_source("https://en.wikipedia.org/wiki/African-American_Civil_Rights_Movement_(1954–1968)",
+                     SourceType.document)
 
+retrieval.score_sources()
+
+retrieval.display_scores()
 
 

@@ -15,10 +15,12 @@ class InformationRetrieval:
                                                                          username=username,
                                                                          password=password)
         self.features = []
+        self.feature_names = []
         self.queries = []
         self.documents = []
 
     def add_features(self, feature_names):
+        self.feature_names = feature_names
         feature_name_mappings = {'keywords': features.Keywords(),
                                  'entities': features.Entities(),
                                  'concepts': features.Concepts(),
@@ -53,19 +55,29 @@ class InformationRetrieval:
 
     # Compares sources by calculating the score for the 2 sources for all features
     # - the calculated score is added to the given query's score list
-    # def compare_sources(self, query_index, document_index, features):
-    #     query = self.queries[query_index]
-    #     document = self.documents[document_index]
-    #     score = Score(query, document, features)
-    #     score.calculate_feature_scores()
-    #     return score
-    #
-    #
-    # # Generates updated scores for every query and document pair
-    # # - uses the current list of features
-    # def score_sources(self, features):
-    #     for query_index in range(len(self.queries)):
-    #         updated_scores = []
-    #         for document_index in range(len(self.documents)):
-    #             updated_scores.append(self.compare_sources(query_index, document_index, features))
-    #         self.queries[query_index].scores = updated_scores
+    def compare_sources(self, query_index, document_index, feature_names):
+        query = self.queries[query_index]
+        document = self.documents[document_index]
+        score = Score(query, document, feature_names)
+        score.calculate_feature_scores()
+        return score
+
+    # Generates updated scores for every query and document pair
+    # - uses the current list of features
+    def score_sources(self):
+        for query_index in range(len(self.queries)):
+            updated_scores = []
+            for document_index in range(len(self.documents)):
+                updated_scores.append(self.compare_sources(query_index, document_index, self.feature_names))
+            self.queries[query_index].scores = updated_scores
+
+    # Prints out feature scores for each query-document pairing
+    def display_scores(self):
+        for query_index, query in enumerate(self.queries):
+            print("Query %i" % query_index)
+            for document_index, score in enumerate(query.scores):
+                print("\tDocument %i" % document_index)
+                for feature_name in score.scores:
+                    print("\t\t", feature_name, score.scores[feature_name])
+
+
