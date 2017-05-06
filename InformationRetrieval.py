@@ -5,6 +5,7 @@ from SourceType import *
 from Source import *
 from Document import *
 from Query import *
+from Score import *
 
 
 class InformationRetrieval:
@@ -50,8 +51,21 @@ class InformationRetrieval:
             document.analysis = self.analyze_source(source=document, kind=SourceType.document)
             self.documents.append(document)
 
-    #def compare_sources(self, source_one, source_two, feature_name):
-
-
-    #def score_sources(self, features, weights):
-
+    # Compares sources by calculating the score for the 2 sources for all features
+    # - the calculated score is added to the given query's score list
+    # def compare_sources(self, query_index, document_index, features):
+    #     query = self.queries[query_index]
+    #     document = self.documents[document_index]
+    #     score = Score(query, document, features)
+    #     score.calculate_feature_scores()
+    #     return score
+    #
+    #
+    # # Generates updated scores for every query and document pair
+    # # - uses the current list of features
+    # def score_sources(self, features):
+    #     for query_index in range(len(self.queries)):
+    #         updated_scores = []
+    #         for document_index in range(len(self.documents)):
+    #             updated_scores.append(self.compare_sources(query_index, document_index, features))
+    #         self.queries[query_index].scores = updated_scores

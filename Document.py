@@ -6,5 +6,3 @@ class Document:
         Source.__init__(self, features)
         self.url = url
 
-
-    
