@@ -9,9 +9,13 @@ class Score:
         self.features = features
         self.scores = {}
 
-    # Sums scores for all features and returns the result
+    # Sums scores for all features and returns the result (this is unweighted)
     def total_score(self):
         return sum(self.scores.values())
+
+    # Returns weighted score for all features
+    def weighted_score(self):
+        
 
     # Calculates aggregate score for this query-document pair by individually
     # calculating the scores for each given feature
@@ -38,6 +42,10 @@ class Score:
         if feature.name == "keywords" or feature.name == "concepts" or feature.name == "entities":
             return query_element['relevance'] * document_element['relevance'] * \
                    Score.element_similarity(query_element, document_element, feature)
+        elif feature.name == "categories":
+            return query_element['score'] * document_element['score'] * Score.element_similarity(query_element,
+                                                                                                 document_element,
+                                                                                                 feature)
 
     # Calculates the similarity score between the query text and the document text
     @staticmethod
@@ -46,19 +54,23 @@ class Score:
         if feature.name == "keywords" or feature.name == "concepts":
             return Score.similarity(query_element['text'], document_element['text'])
         elif feature.name == "entities":
-            print(query_element, "\n", document_element)
             if 'disambiguation' in query_element.keys() and 'disambiguation' in document_element.keys():
                 return Score.similarity(query_element['disambiguation']['name'],
                                         document_element['disambiguation']['name'])
             else:
                 return Score.similarity(query_element['text'], document_element['text'])
-        return 1
+        elif feature.name == "categories":
+            if query_element['label'] == document_element['label']:
+                return 1
+            else:
+                return 0
 
     # Calculates similarity between query and document text
     # - uses WordNet Wu and Palmer similarity score for each query-document word pairing
     @staticmethod
     def similarity(query_text, document_text):
         score = 0
+
         query_words = query_text.split(" ")
         document_words = document_text.split(" ")
 

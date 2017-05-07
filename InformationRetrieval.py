@@ -18,11 +18,13 @@ class InformationRetrieval:
         self.queries = []
         self.documents = []
 
-    def add_features(self, feature_names):
-
+    def add_features_and_weights(self, feature_names, weights):
         problem_features = []
         for feature_number, name in enumerate(feature_names):
-            feature = Feature(name)
+            weight = 0
+            if feature_number < len(weights):
+                weight = weights[feature_number]
+            feature = Feature(name, weight)
             if feature.element is not None:
                 self.features.append(feature)
             else:
@@ -74,6 +76,10 @@ class InformationRetrieval:
     # Returns array of only the feature names
     def feature_names(self):
         return [feature.name for feature in self.features]
+
+    # Returns array of only the feature weights
+    def feature_weights(self):
+        return [feature.weight for feature in self.features]
 
     # Prints out feature scores for each query-document pairing
     def display_scores(self):

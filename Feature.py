@@ -2,9 +2,10 @@ import watson_developer_cloud.natural_language_understanding.features.v1 as feat
 
 class Feature:
 
-    def __init__(self, name):
+    def __init__(self, name, weight):
         self.name = name
         self.element = Feature.map_feature(name)
+        self.weight = weight
 
     @staticmethod
     def map_feature(name):
