@@ -77,10 +77,6 @@ class InformationRetrieval:
     def feature_names(self):
         return [feature.name for feature in self.features]
 
-    # Returns array of only the feature weights
-    def feature_weights(self):
-        return [feature.weight for feature in self.features]
-
     # Prints out feature scores for each query-document pairing
     def display_scores(self):
         for query_index, query in enumerate(self.queries):
@@ -90,5 +86,6 @@ class InformationRetrieval:
                 for feature_name in score.scores:
                     print("\t\t", feature_name, score.scores[feature_name])
                 print("\t\t", "total", score.total_score())
+                print("\t\t", "weighted total", score.weighted_score())
 
 

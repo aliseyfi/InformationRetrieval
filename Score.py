@@ -15,7 +15,12 @@ class Score:
 
     # Returns weighted score for all features
     def weighted_score(self):
-        
+        total_weight = sum(self.feature_weights())
+        return sum([self.scores[feature.name]*feature.weight/total_weight for feature in self.features])
+
+    # Returns array of only the feature weights
+    def feature_weights(self):
+        return [feature.weight for feature in self.features]
 
     # Calculates aggregate score for this query-document pair by individually
     # calculating the scores for each given feature
