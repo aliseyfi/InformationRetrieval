@@ -12,7 +12,9 @@ class Feature:
         feature_name_mappings = {'keywords': features.Keywords(),
                                  'entities': features.Entities(),
                                  'concepts': features.Concepts(),
-                                 'categories': features.Categories()}
+                                 'categories': features.Categories(),
+                                 'sentiment': features.Sentiment(),
+                                 'emotion': features.Emotion()}
         if name in feature_name_mappings:
             return feature_name_mappings[name]
         else:
