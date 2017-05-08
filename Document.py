@@ -1,5 +1,7 @@
 from Source import *
 
+
+# Subclass of Source - text is derived from the given URL
 class Document:
 
     def __init__(self, url, features):

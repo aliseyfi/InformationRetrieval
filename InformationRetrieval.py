@@ -8,6 +8,11 @@ from Score import *
 from Feature import *
 
 
+# Carries out entire process of Information Retrieval including
+# document/query addition, analysis, and scoring
+# - features: List of Feature objects used for analysis and scoring
+# - queries: List of Query objects used for analysis and scoring
+# - documents: List of Document objects used for analysis and scoring
 class InformationRetrieval:
 
     def __init__(self, username, password):
@@ -18,6 +23,9 @@ class InformationRetrieval:
         self.queries = []
         self.documents = []
 
+    # Adds given list of feature names and associated weights
+    # - any mismatch in name length vs. weight length assigns a weight of 0 to that feature
+    # - features and weights are combined into Feature objects which are appended to the instance's feature list
     def add_features_and_weights(self, feature_names, weights):
         problem_features = []
         for feature_number, name in enumerate(feature_names):
@@ -34,12 +42,18 @@ class InformationRetrieval:
             for feature in problem_features:
                 print(feature)
 
+    # Runs the nlu analysis on the given source
+    # - possible sources are documents and queries
+    # - nlu analysis is run using the instance's nlu attribute
     def analyze_source(self, source, kind):
         if SourceType.query == kind:
             return self.nlu.analyze(text=source.text, features=self.feature_elements())
         elif SourceType.document == kind:
             return self.nlu.analyze(url=source.url, features=self.feature_elements())
 
+    # Adds the given source to the correct attribute list and runs appropriate analysis
+    # - queries are added to the queries list
+    # - documents are added to the documents list
     def add_source(self, data, kind):
         if SourceType.query == kind:
             query = Query(text=data, features=self.feature_elements())

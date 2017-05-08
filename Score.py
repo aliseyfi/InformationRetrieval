@@ -1,6 +1,11 @@
 from nltk.corpus import wordnet as wn
 
 
+# Handles all scoring between query document pairs
+# - query: query source that this score is for
+# - document: document source that this score is for
+# - features: list of feature objects to use for the scoring
+# - scores: dictionary of key=feature.name, value=score
 class Score:
 
     def __init__(self, query, document, features):
