@@ -42,11 +42,15 @@ Superclass for Document and Query
 # Query
 Subclass of Source - text derived from given text string
 
-- scores is a list of Score objects representing the scores between the query and each document
+- scores: list of Score objects representing the scores between the query and each document
+
+- text: string holding text for query
 
 
 # Document
 Subclass of Source - text is derived from the given URL
+
+- url: web url where Source text can be found
 
 
 # Feature

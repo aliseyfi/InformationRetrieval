@@ -2,8 +2,9 @@ from Source import *
 
 
 # Subclass of Source - text derived from given text string
-# - scores is a list of Score objects representing the scores between
+# - scores: list of Score objects representing the scores between
 # the query and each document
+# - text: string holding text for query
 class Query:
 
     def __init__(self, text, features):
