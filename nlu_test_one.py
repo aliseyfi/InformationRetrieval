@@ -16,6 +16,8 @@ retrieval.add_source("Gun should be outlawed in the United States", SourceType.q
 retrieval.add_source("The civil rights movement was a turning point in the US", SourceType.query)
 retrieval.add_source("Dogs are a great pet especially for Veterans", SourceType.query)
 retrieval.add_source("Cats are not good pets for little kids", SourceType.query)
+retrieval.add_source("Taxes in the United States should be lowered", SourceType.query)
+retrieval.add_source("Taxes in Mexico should be lowered", SourceType.query)
 
 # Add a test document
 retrieval.add_source("http://gun-control.procon.org", SourceType.document)
@@ -23,6 +25,9 @@ retrieval.add_source("https://en.wikipedia.org/wiki/African-American_Civil_Right
                      SourceType.document)
 retrieval.add_source("https://en.wikipedia.org/wiki/Dog", SourceType.document)
 retrieval.add_source("https://en.wikipedia.org/wiki/Martin_Luther_King_Jr.", SourceType.document)
+retrieval.add_source("https://www.washingtonpost.com/business/economy/washington-braces-for-details-of-trumps-tax-reform-plan/2017/04/25/1fba8b30-29df-11e7-a616-d7c8a68c1a66_story.html?utm_term=.edfd96806ae5", SourceType.document)
+retrieval.add_source("https://americansfortaxfairness.org/tax-fairness-briefing-booklet/fact-sheet-taxing-wealthy-americans/", SourceType.document)
+retrieval.add_source("http://www.worldwide-tax.com/mexico/mexico_taxes.asp", SourceType.document)
 
 retrieval.score_sources()
 
