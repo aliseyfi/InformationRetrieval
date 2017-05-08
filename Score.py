@@ -60,7 +60,6 @@ class Score:
     # Calculates the similarity score between the query text and the document text
     @staticmethod
     def element_similarity(query_element, document_element, feature):
-        # Keys for this need to be different for different features
         if feature.name == "keywords" or feature.name == "concepts":
             return Score.similarity(query_element['text'], document_element['text'])
         elif feature.name == "entities":
