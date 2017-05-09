@@ -1,5 +1,8 @@
 from Source import *
+from SourceType import *
+from Sentence import *
 
+import re
 
 # Subclass of Source - text is raw text from document
 # - text: raw string from passage

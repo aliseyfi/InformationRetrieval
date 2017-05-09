@@ -1,4 +1,5 @@
 from Source import *
+from SourceType import *
 
 
 # Subclass of Source - text is raw text from document
