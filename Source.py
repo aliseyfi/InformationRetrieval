@@ -13,7 +13,9 @@ class Source:
 
     # Calculates the relevancy score of the document with the given query and returns the score
     def relevance_score(self, query):
-
+        score = Score(query, self, self.features, self.source_type)
+        score.calculate_feature_scores()
+        return score
 
     # Calculates relevancy score of document for all queries
     # - result is returned and stored in self.scores
