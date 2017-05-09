@@ -8,12 +8,11 @@ import re
 # - text: raw string from document
 # - scores: list of Score objects between this document and all queries
 # - passages: list of Passage objects that hold all passages from this document
-class Document:
+class Document(Source):
 
     def __init__(self, text, features):
         Source.__init__(self, features, SourceType.document)
         self.text = text
-        self.scores = []
         self.passages = self.get_passages()
 
     # Returns list of Passage objects and stores them in self.passages

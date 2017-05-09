@@ -4,16 +4,16 @@ from Sentence import *
 
 import re
 
+
 # Subclass of Source - text is raw text from document
 # - text: raw string from passage
 # - scores: list of Score objects between this document and all queries
 # - sentences: list of Sentence objects that hold all sentences from this passage
-class Passage:
+class Passage(Source):
 
         def __init__(self, text, features):
             Source.__init__(self, features, SourceType.passage)
             self.text = text
-            self.scores = []
             self.sentences = self.get_sentences()
 
         # Returns list of Sentence objects and stores them in self.sentences

@@ -12,7 +12,7 @@ retrieval = InformationRetrieval(username=username,
 retrieval.add_features_and_weights(['keywords', 'entities', 'concepts', 'categories'], [1, 1, 1, 50])
 #
 # # Add a test query
-# retrieval.add_source("Gun should be outlawed in the United States", SourceType.query)
+retrieval.add_source("Gambling should be outlawed in the United States", SourceType.query)
 # retrieval.add_source("The civil rights movement was a turning point in the US", SourceType.query)
 # retrieval.add_source("Dogs are a great pet especially for Veterans", SourceType.query)
 # retrieval.add_source("Cats are not good pets for little kids", SourceType.query)
@@ -44,7 +44,7 @@ file = open("Gambling", "r+")
 test = file.read()
 
 retrieval.add_source(test, SourceType.document)
-sentences = retrieval.get_summary()
+sentences = retrieval.get_summary(1)
 
 print(sentences)
 
