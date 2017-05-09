@@ -8,6 +8,12 @@ from Source import *
 class Passages:
 
         def __init__(self, text, features):
+        Source.__init__(self, features)
+        self.text = text
+        self.scores = []
+        self.sentences = get_sentences(self)
+
+        def __init__(self, text, features):
                     Source.__init__(self, features)
                             self.text = text
                                     self.scores = []
@@ -19,4 +25,16 @@ class Passages:
             split_sentences = re.split('[.!?]', self.text)
             for sentence in split_sentences:
                 self.sentences.append(Sentence(text = sentence, features = self.features)
+
+
+        # Returns subset of self.sentences with top n scoring passages for each query
+        def get_highest_sentences(self, n):
+            highest_sentences = []
+            for query_index in range(len(self.scores)):
+                highest_sentences.append(self.highest_sentences_for_query(n, query_index))
+
+        # Returns list of n highest scoring passages for this query
+        def highest_sentences_for_query(self, n, query_index):
+           highest_sentences = sorted(self.sentences, key=lambda sentence: sentence.scores[query_index].weighted_score())
+            return highest_sentences[:n]
 
