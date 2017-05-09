@@ -11,12 +11,15 @@ class Document:
         Source.__init__(self, features)
         self.text = text
         self.scores = []
-        self.passages = []
+        self.passages = get_passages(self)
 
 
     # Katherine: get_passages()
     # - returns list of Passage objects and stores them in self.passages
-
+    def get_passages(self):
+        split_passages = re.split('\n\n', self.text)
+        for paragraph in split_passages:
+            self.passages.append(Passage(text = paragraph, features = self.features)
 
     # Returns subset of self.passages with top n scoring passages for each query
     def get_highest_passages(self, n):
