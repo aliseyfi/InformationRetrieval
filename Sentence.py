@@ -7,7 +7,7 @@ from Source import *
 class Sentence:
 
         def __init__(self, text, features):
-            Source.__init__(self, features)
+            Source.__init__(self, features, SourceType.sentence)
             self.text = text
             self.scores = []
 

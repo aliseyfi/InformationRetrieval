@@ -8,24 +8,10 @@ from Source import *
 class Document:
 
     def __init__(self, text, features):
-        Source.__init__(self, features)
+        Source.__init__(self, features, SourceType.document)
         self.text = text
         self.scores = []
         self.passages = get_passages()
-
-    # Calculates the relevancy score of the document with the given query and returns the score
-    def relevance_score(self, query):
-
-
-    # Calculates relevancy score of document for all queries
-    # - result is returned and stored in self.scores
-    def calculate_scores(self, queries):
-        scores = []
-        for query in queries:
-            scores.append(self.relevance_score(query))
-        self.scores = scores
-        return scores
-
 
     # Returns list of Passage objects and stores them in self.passages
     def get_passages(self):

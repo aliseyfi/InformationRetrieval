@@ -8,7 +8,7 @@ from Source import *
 class Query:
 
     def __init__(self, text, features):
-        Source.__init__(self, features)
+        Source.__init__(self, features, SourceType.query)
         self.text = text
         self.scores = []
 

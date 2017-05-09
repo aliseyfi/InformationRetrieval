@@ -5,7 +5,22 @@
 # - analysis: returned analysis from running NLU analysis
 class Source:
 
-    def __init__(self, features):
+    def __init__(self, features, source_type):
         self.features = features
         self.analysis = {}
+        self.scores = []
+        self.source_type = source_type
+
+    # Calculates the relevancy score of the document with the given query and returns the score
+    def relevance_score(self, query):
+
+
+    # Calculates relevancy score of document for all queries
+    # - result is returned and stored in self.scores
+    def calculate_scores(self, queries):
+        scores = []
+        for query in queries:
+            scores.append(self.relevance_score(query))
+        self.scores = scores
+        return scores
 
