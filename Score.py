@@ -37,12 +37,12 @@ class Score:
     # Calculates score between query-document pair for the given feature
     def calculate_score(self, feature):
         query_analysis = self.query.analysis[feature.name]
-        document_analysis = self.source.analysis[feature.name]
+        source_analysis = self.source.analysis[feature.name]
         score = 0
 
         for query_element in query_analysis:
-            for document_element in document_analysis:
-                score += Score.element_score(query_element, document_element, feature)
+            for source_element in source_analysis:
+                score += Score.element_score(query_element, source_element, feature)
 
         return score
 

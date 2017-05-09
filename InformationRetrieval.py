@@ -50,6 +50,8 @@ class InformationRetrieval:
             return self.nlu.analyze(text=source.text, features=self.feature_elements())
         elif SourceType.document == kind:
             return self.nlu.analyze(text=source.text, features=self.feature_elements())
+        elif SourceType.passage == kind:
+            return self.nlu.analyze(text=source.text, features=self.feature_elements())
 
     # Adds the given source to the correct attribute list and runs appropriate analysis
     # - queries are added to the queries list
@@ -75,6 +77,7 @@ class InformationRetrieval:
     # Runs necessary scoring process to find top n scoring documents for each query
     # - returns 2d list (num_queries x n) of top documents for each query
     def get_top_documents(self, n):
+        print("GET TOP DOCUMENTS")
         top_documents = []
         for document in self.documents:
             document.calculate_scores(self.queries)
@@ -89,6 +92,7 @@ class InformationRetrieval:
     # Runs necessary scoring process to find top n passages from given documents for each query
     # - returns 2d list (num queries x n) of top passages for each query
     def get_top_passages(self, documents, n):
+        print("GET TOP PASSAGES")
         top_passages = []
         # Go through all queries
         for query_index, query in enumerate(self.queries):
@@ -99,15 +103,17 @@ class InformationRetrieval:
             # Calculate passage scores for these documents
             for document in top_documents:
                 for passage in document.passages:
+                    passage.analysis = self.analyze_source(passage, SourceType.passage)
                     passage.calculate_scores(self.queries)
                     passages.append(passage)
-            query_scores = sorted(passages, key=lambda passage: passage.scores[query_index].weighted_scores())
+            query_scores = sorted(passages, key=lambda passage: passage.scores[query_index].weighted_score())
             top_passages.append(query_scores[:n])
         return top_passages
 
     # Runs necessary scoring process to find top n sentences from the given passages for each query
     # - returns 2d list (num queries x n) of top sentences for each query
     def get_top_sentences(self, passages, n):
+        print("GET TOP SENTENCES")
         top_sentences = []
         # Go through all queries
         for query_index, query in enumerate(self.queries):

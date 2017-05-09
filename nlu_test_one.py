@@ -1,15 +1,15 @@
 from InformationRetrieval import *
 
 
-username = "450b4230-5e4c-4547-900d-3b6ee9347541"
-password = "Ec8m5yA0YBEx"
+username = "0a841129-3bf0-4eca-a03c-e8e0defa2c9f"
+password = "fTw8pkFJoK1K"
 
 # Create InformationRetrieval instance to handle analysis
 retrieval = InformationRetrieval(username=username,
                                  password=password)
 
 # Add the list of wanted features
-retrieval.add_features_and_weights(['keywords', 'entities', 'concepts', 'categories'], [1, 1, 1, 50])
+retrieval.add_features_and_weights(['keywords'], [1])
 #
 # # Add a test query
 retrieval.add_source("Gambling should be outlawed in the United States", SourceType.query)
