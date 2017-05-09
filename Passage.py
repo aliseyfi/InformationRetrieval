@@ -34,6 +34,8 @@ class Passage(Source):
 
         # Returns list of n highest scoring passages for this query
         def highest_sentences_for_query(self, n, query_index):
-            highest_sentences = sorted(self.sentences, key=lambda sentence: sentence.scores[query_index].weighted_score())
+            highest_sentences = sorted(self.sentences,
+                                       key=lambda sentence: sentence.scores[query_index].weighted_score(),
+                                       reverse=True)
             return highest_sentences[:n]
 

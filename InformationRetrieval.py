@@ -68,11 +68,11 @@ class InformationRetrieval:
             self.documents.append(document)
 
     # Runs entire scoring and retrieval process to return top summary sentences
-    def get_summary(self, n):
-        top_documents = self.get_top_documents(n)
-        top_passages = self.get_top_passages(top_documents, n)
-        top_sentences = self.get_top_sentences(top_passages, n)
-        return top_sentences
+    def get_summary(self, n_docs, n_passages, n_sentences):
+        top_documents = self.get_top_documents(n_docs)
+        top_passages = self.get_top_passages(top_documents, n_passages)
+        # top_sentences = self.get_top_sentences(top_passages, n)
+        return top_passages
 
     # Runs necessary scoring process to find top n scoring documents for each query
     # - returns 2d list (num_queries x n) of top documents for each query
@@ -84,7 +84,9 @@ class InformationRetrieval:
         # Go through all queries
         for query_index, query in enumerate(self.queries):
             # Sort the documents by their score on this query
-            query_scores = sorted(self.documents, key=lambda doc: doc.scores[query_index].weighted_score())
+            query_scores = sorted(self.documents,
+                                  key=lambda doc: doc.scores[query_index].weighted_score(),
+                                  reverse=True)
             # Select and store the top n documents
             top_documents.append(query_scores[:n])
         return top_documents
@@ -106,7 +108,9 @@ class InformationRetrieval:
                     passage.analysis = self.analyze_source(passage, SourceType.passage)
                     passage.calculate_scores(self.queries)
                     passages.append(passage)
-            query_scores = sorted(passages, key=lambda passage: passage.scores[query_index].weighted_score())
+            query_scores = sorted(passages,
+                                  key=lambda passage: passage.scores[query_index].weighted_score(),
+                                  reverse=True)
             top_passages.append(query_scores[:n])
         return top_passages
 
@@ -123,9 +127,12 @@ class InformationRetrieval:
             sentences = []
             for passage in top_passages:
                 for sentence in passage.sentences:
+                    sentence.analysis = self.analyze_source(sentence, SourceType.sentence)
                     sentence.calculate_scores(self.queries)
                     sentences.append(sentence)
-            query_scores = sorted(sentences, key=lambda sentence: sentence.scores[query_index].weighted_scores())
+            query_scores = sorted(sentences,
+                                  key=lambda sentence: sentence.scores[query_index].weighted_scores(),
+                                  reverse=True)
             top_sentences.append(query_scores[:n])
         return top_sentences
 

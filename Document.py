@@ -32,5 +32,7 @@ class Document(Source):
 
     # Returns list of n highest scoring passages for this query
     def highest_passages_for_query(self, n, query_index):
-        highest_passages = sorted(self.passages, key=lambda passage: passage.scores[query_index].weighted_score())
+        highest_passages = sorted(self.passages,
+                                  key=lambda passage: passage.scores[query_index].weighted_score(),
+                                  reverse=True)
         return highest_passages[:n]
