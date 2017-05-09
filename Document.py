@@ -13,6 +13,20 @@ class Document:
         self.scores = []
         self.passages = get_passages(self)
 
+    # Calculates the relevancy score of the document with the given query and returns the score
+    def relevance_score(self, query):
+
+
+    # Calculates relevancy score of document for all queries
+    # - result is returned and stored in self.scores
+    def calculate_scores(self, queries):
+        scores = []
+        for query in queries:
+            scores.append(self.relevance_score(query))
+        self.scores = scores
+        return scores
+
+
     # Returns list of Passage objects and stores them in self.passages
     def get_passages(self):
         split_passages = re.split('\n\n', self.text)

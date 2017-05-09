@@ -13,6 +13,17 @@ class Passages:
         self.scores = []
         self.sentences = self.get_sentences(self)
 
+        # Calculates the relevancy score of the document with the given query and returns the score
+        def relevance_score(self, query):
+
+        # Calculates relevancy score of document for all queries
+        # - result is returned and stored in self.scores
+        def calculate_scores(self, queries):
+            scores = []
+            for query in queries:
+                scores.append(self.relevance_score(query))
+            self.scores = scores
+            return scores
 
         # - returns list of Sentence objects and stores them in self.sentences
         def get_sentences(self):
@@ -29,6 +40,6 @@ class Passages:
 
         # Returns list of n highest scoring passages for this query
         def highest_sentences_for_query(self, n, query_index):
-           highest_sentences = sorted(self.sentences, key=lambda sentence: sentence.scores[query_index].weighted_score())
+            highest_sentences = sorted(self.sentences, key=lambda sentence: sentence.scores[query_index].weighted_score())
             return highest_sentences[:n]
 

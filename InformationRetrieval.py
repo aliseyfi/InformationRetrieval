@@ -83,6 +83,51 @@ class InformationRetrieval:
                 updated_scores.append(self.compare_sources(query_index, document_index, self.features))
             self.queries[query_index].scores = updated_scores
 
+
+    # Runs entire scoring and retrieval process to return top summary sentences
+    def get_summary(self, n):
+        top_documents = self.get_top_documents(n)
+        top_passages = self.get_top_passages(top_documents, n)
+        top_sentences = self.get_top_sentences(top_passages, n)
+        return top_sentences
+
+    # Runs necessary scoring process to find top n scoring documents for each query
+    # - returns 2d list (num_queries x n) of top documents for each query
+    def get_top_documents(self, n):
+        top_documents = []
+        for document in self.documents:
+            document.calculate_scores()
+        # Go through all queries
+        for query_index, query in enumerate(self.queries):
+            # Sort the documents by their score on this query
+            query_scores = sorted(self.documents, key=lambda doc: doc.scores[query_index].weighted_score())
+            # Select and store the top n documents
+            top_documents.append([query_scores[:n]])
+        return top_documents
+
+    # Runs necessary scoring process to find top n passages from given documents for each query
+    # - returns 2d list (num queries x n) of top passages for each query
+    def get_top_passages(self, documents, n):
+        top_passages = []
+        # Go through all queries
+        for query_index, query in enumerate(self.queries):
+            # Get top documents for this query
+            top_documents = documents[query_index]
+            # List of passages from all top documents for this query
+            passages = []
+            # Calculate passage scores for these documents
+            for document in top_documents:
+                for passage in document.passages:
+                    passage.calculate_scores()
+                    passages.append(passage)
+            query_scores = sorted(passages, key=lambda passage: passage.scores[query_index].weighted_scores())
+            top_passages.append([query_scores[:n]])
+        return top_passages
+
+    # Runs necessary scoring process to find top n sentences from the given passages for each query
+    def get_top_sentences(self, passages, n):
+        
+
     # Returns array of only the feature elements
     def feature_elements(self):
         return [feature.element for feature in self.features]

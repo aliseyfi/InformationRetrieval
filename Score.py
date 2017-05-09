@@ -8,9 +8,9 @@ from nltk.corpus import wordnet as wn
 # - scores: dictionary of key=feature.name, value=score
 class Score:
 
-    def __init__(self, query, text, features, source_type):
+    def __init__(self, query, source, features, source_type):
         self.query = query
-        self.text = text
+        self.source = source
         self.features = features
         self.scores = {}
         self.type = source_type
