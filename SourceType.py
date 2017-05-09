@@ -7,3 +7,5 @@ from enum import Enum
 class SourceType(Enum):
     document = 0
     query = 1
+    passage = 2
+    sentence = 3
