@@ -11,7 +11,7 @@ class Passages:
         Source.__init__(self, features)
         self.text = text
         self.scores = []
-        self.sentences = self.get_sentences(self)
+        self.sentences = self.get_sentences()
 
         # Calculates the relevancy score of the document with the given query and returns the score
         def relevance_score(self, query):

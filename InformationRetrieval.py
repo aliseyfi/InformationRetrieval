@@ -83,7 +83,6 @@ class InformationRetrieval:
                 updated_scores.append(self.compare_sources(query_index, document_index, self.features))
             self.queries[query_index].scores = updated_scores
 
-
     # Runs entire scoring and retrieval process to return top summary sentences
     def get_summary(self, n):
         top_documents = self.get_top_documents(n)
@@ -126,7 +125,20 @@ class InformationRetrieval:
 
     # Runs necessary scoring process to find top n sentences from the given passages for each query
     def get_top_sentences(self, passages, n):
-        
+        top_sentences = []
+        # Go through all queries
+        for query_index, query in enumerate(self.queries):
+            # Get top passages for this query
+            top_passages = passages[query_index]
+            # List of sentences from all top passages for this query
+            sentences = []
+            for passage in top_passages:
+                for sentence in passage.sentences:
+                    sentence.calculate_scores()
+                    sentences.append(sentence)
+            query_scores = sorted(sentences, key=lambda sentence: sentence.scores[query_index].weighted_scores())
+            top_sentences.append(query_scores[:n])
+        return top_sentences
 
     # Returns array of only the feature elements
     def feature_elements(self):
