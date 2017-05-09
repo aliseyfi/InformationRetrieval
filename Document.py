@@ -18,12 +18,13 @@ class Document:
     # - returns list of Passage objects and stores them in self.passages
 
 
-    # Returns subset of self.passages with top n scoring passages
+    # Returns subset of self.passages with top n scoring passages for each query
     def get_highest_passages(self, n):
         highest_passages = []
         for query_index in range(len(self.scores)):
             highest_passages.append(self.highest_passages_for_query(n, query_index))
 
+    # Returns list of n highest scoring passages for this query
     def highest_passages_for_query(self, n, query_index):
-        highest_passages = sorted(self.passages, key=lambda passage: passage.scores[query_index])
+        highest_passages = sorted(self.passages, key=lambda passage: passage.scores[query_index].weighted_score())
         return highest_passages[:n]

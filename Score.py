@@ -8,11 +8,12 @@ from nltk.corpus import wordnet as wn
 # - scores: dictionary of key=feature.name, value=score
 class Score:
 
-    def __init__(self, query, document, features):
+    def __init__(self, query, text, features, source_type):
         self.query = query
-        self.document = document
+        self.text = text
         self.features = features
         self.scores = {}
+        self.type = source_type
 
     # Sums scores for all features and returns the result (this is unweighted)
     def total_score(self):
