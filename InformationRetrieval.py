@@ -61,7 +61,7 @@ class InformationRetrieval:
             self.queries.append(query)
 
         elif SourceType.document == kind:
-            document = Document(url=data, features=self.feature_elements())
+            document = Document(text=data, features=self.feature_elements())
             document.analysis = self.analyze_source(source=document, kind=SourceType.document)
             self.documents.append(document)
 
@@ -106,6 +106,7 @@ class InformationRetrieval:
         return top_passages
 
     # Runs necessary scoring process to find top n sentences from the given passages for each query
+    # - returns 2d list (num queries x n) of top sentences for each query
     def get_top_sentences(self, passages, n):
         top_sentences = []
         # Go through all queries

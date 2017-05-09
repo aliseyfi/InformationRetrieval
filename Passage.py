@@ -5,19 +5,22 @@ from Source import *
 # - text: raw string from passage
 # - scores: list of Score objects between this document and all queries
 # - sentences: list of Sentence objects that hold all sentences from this passage
-class Passages:
+class Passage:
 
         def __init__(self, text, features):
-        Source.__init__(self, features, SourceType.passage)
-        self.text = text
-        self.scores = []
-        self.sentences = self.get_sentences()
+            Source.__init__(self, features, SourceType.passage)
+            self.text = text
+            self.scores = []
+            self.sentences = self.get_sentences()
 
         # Returns list of Sentence objects and stores them in self.sentences
         def get_sentences(self):
             split_sentences = re.split('[.!?]', self.text)
+            sentences = []
             for sentence in split_sentences:
-                self.sentences.append(Sentence(text = sentence, features = self.features))
+                #self.sentences.append(Sentence(text = sentence, features = self.features))
+                sentences.append(Sentence(text = sentence, features = self.features))
+            return sentences
 
 
         # Returns subset of self.sentences with top n scoring passages for each query

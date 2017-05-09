@@ -1,4 +1,7 @@
 from Source import *
+from SourceType import *
+from Passage import *
+import re
 
 
 # Subclass of Source - text is raw text from document
@@ -11,13 +14,16 @@ class Document:
         Source.__init__(self, features, SourceType.document)
         self.text = text
         self.scores = []
-        self.passages = get_passages()
+        self.passages = self.get_passages()
 
     # Returns list of Passage objects and stores them in self.passages
     def get_passages(self):
         split_passages = re.split('\n\n', self.text)
+        passages = []
         for paragraph in split_passages:
-            self.passages.append(Passage(text=paragraph, features=self.features))
+            #self.passages.append(Passage(text=paragraph, features=self.features))
+            passages.append(Passage(text=paragraph, features=self.features))
+        return passages
 
     # Returns subset of self.passages with top n scoring passages for each query
     def get_highest_passages(self, n):
