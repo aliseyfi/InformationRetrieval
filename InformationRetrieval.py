@@ -49,7 +49,7 @@ class InformationRetrieval:
         if SourceType.query == kind:
             return self.nlu.analyze(text=source.text, features=self.feature_elements())
         elif SourceType.document == kind:
-            return self.nlu.analyze(url=source.url, features=self.feature_elements())
+            return self.nlu.analyze(text=source.text, features=self.feature_elements())
 
     # Adds the given source to the correct attribute list and runs appropriate analysis
     # - queries are added to the queries list
