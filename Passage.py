@@ -14,7 +14,6 @@ class Passages:
         self.sentences = get_sentences(self)
 
 
-    # Katherine: get_passages()
     # - returns list of Sentence objects and stores them in self.sentences
     def get_sentences(self):
         split_sentences = re.split('[.!?]', self.text)
