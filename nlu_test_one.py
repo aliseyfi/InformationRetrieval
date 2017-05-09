@@ -9,11 +9,12 @@ retrieval = InformationRetrieval(username=username,
                                  password=password)
 
 # Add the list of wanted features
-retrieval.add_features_and_weights(['keywords'], [1])
+retrieval.add_features_and_weights(['keywords', 'concepts'], [1, 1])
 #
 # # Add a test query
 retrieval.add_source("Gambling should be outlawed in the United States", SourceType.query)
-# retrieval.add_source("The civil rights movement was a turning point in the US", SourceType.query)
+retrieval.add_source("Does God exist?", SourceType.query)
+# retrieval.add_source("Gun laws are too strict in America", SourceType.query)
 # retrieval.add_source("Dogs are a great pet especially for Veterans", SourceType.query)
 # retrieval.add_source("Cats are not good pets for little kids", SourceType.query)
 # retrieval.add_source("Taxes in the United States should be lowered", SourceType.query)
@@ -40,15 +41,27 @@ retrieval.add_source("Gambling should be outlawed in the United States", SourceT
 # print(retrieval.queries[0].analysis['keywords'])
 # print(retrieval.documents[0].analysis['keywords'])
 
-file = open("Gambling", "r+")
-test = file.read()
+file_gambling = open("Gambling", "r+")
+gambling = file_gambling.read()
 
-retrieval.add_source(test, SourceType.document)
+# file_guns = open("Gun_control", "r+")
+# guns = file_guns.read()
+
+file_god = open("Existence_of_God", "r+")
+god = file_god.read()
+
+
+retrieval.add_source(gambling, SourceType.document)
+# retrieval.add_source(guns, SourceType.document)
+retrieval.add_source(god, SourceType.document)
+
+
 sentences = retrieval.get_summary(n_docs=1, n_passages=5, n_sentences=5)
 
 for query_index, query in enumerate(retrieval.queries):
+    print("Query: ", query.text)
     for sentence in sentences[query_index]:
-        print("Text:", sentence.text)
-        print("Score:", sentence.scores[query_index].weighted_score(), "\n\n")
+        print("\tText:", sentence.text)
+        print("\t\tScore:", sentence.scores[query_index].weighted_score(), "\n\n")
 
 

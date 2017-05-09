@@ -46,7 +46,7 @@ class InformationRetrieval:
     # - possible sources are documents and queries
     # - nlu analysis is run using the instance's nlu attribute
     def analyze_source(self, source):
-        return self.nlu.analyze(text=source.text, features=self.feature_elements())
+        return self.nlu.analyze(text=source.text, features=self.feature_elements(), language='en')
 
     # Adds the given source to the correct attribute list and runs appropriate analysis
     # - queries are added to the queries list
@@ -72,7 +72,6 @@ class InformationRetrieval:
     # Runs necessary scoring process to find top n scoring documents for each query
     # - returns 2d list (num_queries x n) of top documents for each query
     def get_top_documents(self, n):
-        print("GET TOP DOCUMENTS")
         top_documents = []
         for document in self.documents:
             document.calculate_scores(self.queries)
@@ -89,7 +88,6 @@ class InformationRetrieval:
     # Runs necessary scoring process to find top n passages from given documents for each query
     # - returns 2d list (num queries x n) of top passages for each query
     def get_top_passages(self, documents, n):
-        print("GET TOP PASSAGES")
         top_passages = []
         # Go through all queries
         for query_index, query in enumerate(self.queries):
@@ -112,7 +110,6 @@ class InformationRetrieval:
     # Runs necessary scoring process to find top n sentences from the given passages for each query
     # - returns 2d list (num queries x n) of top sentences for each query
     def get_top_sentences(self, passages, n):
-        print("GET TOP SENTENCES")
         top_sentences = []
         # Go through all queries
         for query_index, query in enumerate(self.queries):

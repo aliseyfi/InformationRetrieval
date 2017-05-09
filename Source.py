@@ -1,5 +1,6 @@
 from Score import *
 
+
 # Superclass for Document and Query
 # - features: list of Feature objects to use for this source
 # - analysis: returned analysis from running NLU analysis
