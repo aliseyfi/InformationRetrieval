@@ -2,6 +2,8 @@ from Source import *
 from SourceType import *
 from Sentence import *
 
+from nltk.tokenize import sent_tokenize
+
 import re
 
 
@@ -19,6 +21,7 @@ class Passage(Source):
         # Returns list of Sentence objects and stores them in self.sentences
         def get_sentences(self):
             split_sentences = re.split('[.!?]', self.text)
+            split_sentences = sent_tokenize(self.text)
             sentences = []
             for sentence in split_sentences:
                 #self.sentences.append(Sentence(text = sentence, features = self.features))

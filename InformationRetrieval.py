@@ -45,13 +45,8 @@ class InformationRetrieval:
     # Runs the nlu analysis on the given source
     # - possible sources are documents and queries
     # - nlu analysis is run using the instance's nlu attribute
-    def analyze_source(self, source, kind):
-        if SourceType.query == kind:
-            return self.nlu.analyze(text=source.text, features=self.feature_elements())
-        elif SourceType.document == kind:
-            return self.nlu.analyze(text=source.text, features=self.feature_elements())
-        elif SourceType.passage == kind:
-            return self.nlu.analyze(text=source.text, features=self.feature_elements())
+    def analyze_source(self, source):
+        return self.nlu.analyze(text=source.text, features=self.feature_elements())
 
     # Adds the given source to the correct attribute list and runs appropriate analysis
     # - queries are added to the queries list
@@ -59,20 +54,20 @@ class InformationRetrieval:
     def add_source(self, data, kind):
         if SourceType.query == kind:
             query = Query(text=data, features=self.features)
-            query.analysis = self.analyze_source(source=query, kind=SourceType.query)
+            query.analysis = self.analyze_source(source=query)
             self.queries.append(query)
 
         elif SourceType.document == kind:
             document = Document(text=data, features=self.features)
-            document.analysis = self.analyze_source(source=document, kind=SourceType.document)
+            document.analysis = self.analyze_source(source=document)
             self.documents.append(document)
 
     # Runs entire scoring and retrieval process to return top summary sentences
     def get_summary(self, n_docs, n_passages, n_sentences):
         top_documents = self.get_top_documents(n_docs)
         top_passages = self.get_top_passages(top_documents, n_passages)
-        # top_sentences = self.get_top_sentences(top_passages, n)
-        return top_passages
+        top_sentences = self.get_top_sentences(top_passages, n_sentences)
+        return top_sentences
 
     # Runs necessary scoring process to find top n scoring documents for each query
     # - returns 2d list (num_queries x n) of top documents for each query
@@ -105,7 +100,7 @@ class InformationRetrieval:
             # Calculate passage scores for these documents
             for document in top_documents:
                 for passage in document.passages:
-                    passage.analysis = self.analyze_source(passage, SourceType.passage)
+                    passage.analysis = self.analyze_source(passage)
                     passage.calculate_scores(self.queries)
                     passages.append(passage)
             query_scores = sorted(passages,
@@ -127,11 +122,11 @@ class InformationRetrieval:
             sentences = []
             for passage in top_passages:
                 for sentence in passage.sentences:
-                    sentence.analysis = self.analyze_source(sentence, SourceType.sentence)
+                    sentence.analysis = self.analyze_source(sentence)
                     sentence.calculate_scores(self.queries)
                     sentences.append(sentence)
             query_scores = sorted(sentences,
-                                  key=lambda sentence: sentence.scores[query_index].weighted_scores(),
+                                  key=lambda sentence: sentence.scores[query_index].weighted_score(),
                                   reverse=True)
             top_sentences.append(query_scores[:n])
         return top_sentences

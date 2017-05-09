@@ -48,7 +48,7 @@ sentences = retrieval.get_summary(n_docs=1, n_passages=5, n_sentences=5)
 
 for query_index, query in enumerate(retrieval.queries):
     for sentence in sentences[query_index]:
-        print("Text", sentence.text, "\n\n")
-        print("Score", sentence.scores[query_index].weighted_score())
+        print("Text:", sentence.text)
+        print("Score:", sentence.scores[query_index].weighted_score(), "\n\n")
 
 
