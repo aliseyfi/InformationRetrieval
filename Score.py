@@ -43,7 +43,6 @@ class Score:
         for query_element in query_analysis:
             for source_element in source_analysis:
                 score += Score.element_score(query_element, source_element, feature)
-
         return score
 
     # Calculates score for individual elements of query-document pair analysis

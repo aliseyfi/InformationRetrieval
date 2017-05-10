@@ -1,19 +1,20 @@
 from InformationRetrieval import *
 
 
-username = "621a09a8-d733-4747-9b44-c9cc0419c119"
-password = "ljw8cFGxXfmO"
+username = "d3bde2d7-ee5a-46a1-a8e5-c765787a99ab"
+password = "q6om1v4CzEdU"
 
 # Create InformationRetrieval instance to handle analysis
 retrieval = InformationRetrieval(username=username,
                                  password=password)
 
 # Add the list of wanted features
-retrieval.add_features_and_weights(['keywords', 'concepts'], [1, 1])
+retrieval.add_features_and_weights(['keywords', 'concepts', 'entities'], [1, 1, 1])
 #
 # # Add a test query
-retrieval.add_source("Gambling should be outlawed in the United States", SourceType.query)
-retrieval.add_source("Does God exist?", SourceType.query)
+# retrieval.add_source("Gambling should be outlawed in the United States", SourceType.query)
+retrieval.add_source("The existence of God is undeniable.", SourceType.query)
+# retrieval.add_source("God God God God Existence of God God Existence", SourceType.query)
 # retrieval.add_source("Gun laws are too strict in America", SourceType.query)
 # retrieval.add_source("Dogs are a great pet especially for Veterans", SourceType.query)
 # retrieval.add_source("Cats are not good pets for little kids", SourceType.query)
@@ -41,8 +42,8 @@ retrieval.add_source("Does God exist?", SourceType.query)
 # print(retrieval.queries[0].analysis['keywords'])
 # print(retrieval.documents[0].analysis['keywords'])
 
-file_gambling = open("Gambling", "r+")
-gambling = file_gambling.read()
+# file_gambling = open("Gambling", "r+")
+# gambling = file_gambling.read()
 
 # file_guns = open("Gun_control", "r+")
 # guns = file_guns.read()
@@ -50,8 +51,8 @@ gambling = file_gambling.read()
 file_god = open("Existence_of_God", "r+")
 god = file_god.read()
 
-
-retrieval.add_source(gambling, SourceType.document)
+#
+# retrieval.add_source(gambling, SourceType.document)
 # retrieval.add_source(guns, SourceType.document)
 retrieval.add_source(god, SourceType.document)
 
