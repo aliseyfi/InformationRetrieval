@@ -13,7 +13,7 @@ class Dataset:
             dir_path += "/"
 
         for fn in os.listdir(dir_path):
-            with open(dir_path + fn, "rt", encoding="utf8") as f:
+            with open(dir_path + fn, "rt", encoding="latin-1") as f:
                 contents.append(f.read())
 
         return contents
