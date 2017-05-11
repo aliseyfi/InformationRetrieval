@@ -6,6 +6,7 @@ from Document import *
 from Query import *
 from Score import *
 from Feature import *
+from Dataset import Dataset
 
 
 # Carries out entire process of Information Retrieval including
@@ -59,6 +60,22 @@ class InformationRetrieval:
 
         elif SourceType.document == kind:
             document = Document(text=data, features=self.features)
+            document.analysis = self.analyze_source(source=document)
+            self.documents.append(document)
+
+    # Adds a query and runs analysis.
+    # add_query(text) is equivalent to add_source(text, SourceType.query)
+    def add_query(self, text):
+        query = Query(text=text, features=self.features)
+        query.analysis = self.analyze_source(source=query)
+        self.queries.append(query)
+
+    # Adds all files in the folder at the passed path as documents.
+    def add_dataset(self, folder_path):
+        ds = Dataset(folder_path)
+
+        for doc in ds.get_contents():
+            document = Document(text=doc, features=self.features)
             document.analysis = self.analyze_source(source=document)
             self.documents.append(document)
 
@@ -149,5 +166,3 @@ class InformationRetrieval:
                     print("\t\t", feature_name, score.scores[feature_name])
                 print("\t\t", "total", score.total_score())
                 print("\t\t", "weighted total", score.weighted_score())
-
-
