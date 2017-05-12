@@ -1,8 +1,8 @@
 from InformationRetrieval import *
 
 
-username = "621a09a8-d733-4747-9b44-c9cc0419c119"
-password = "ljw8cFGxXfmO"
+username = "f2291678-5b43-445c-8cfb-0890b3a47969"
+password = "vk65ROc1bvte"
 
 # Create InformationRetrieval instance to handle analysis
 retrieval = InformationRetrieval(username=username,

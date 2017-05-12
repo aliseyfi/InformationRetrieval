@@ -1,4 +1,5 @@
 from nltk.corpus import wordnet as wn
+from nltk.tokenize import word_tokenize
 
 
 # Handles all scoring between query document pairs
@@ -42,15 +43,17 @@ class Score:
 
         for query_element in query_analysis:
             for source_element in source_analysis:
-                score += Score.element_score(query_element, source_element, feature, query_analysis, source_analysis)
+                score += self.element_score(query_element, source_element, feature, query_analysis, source_analysis)
         return score
 
     # Calculates score for individual elements of query-document pair analysis
-    @staticmethod
-    def element_score(query_element, document_element, feature, query_analysis, source_analysis):
+    def element_score(self, query_element, document_element, feature, query_analysis, source_analysis):
         # These keys should be different for different features
+        # Get document word count
+        source_words = word_tokenize(self.source.text)
         if feature.name == "keywords" or feature.name == "concepts" or feature.name == "entities":
-            return (query_element['relevance'] / len(query_analysis)) * (document_element['relevance']/len(source_analysis)) * \
+            return (query_element['relevance'] / len(query_analysis)) * \
+                   (document_element['relevance']/len(source_analysis)) *\
                    Score.element_similarity(query_element, document_element, feature)
         elif feature.name == "categories":
             return query_element['score'] * document_element['score'] * Score.element_similarity(query_element,
