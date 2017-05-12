@@ -1,8 +1,8 @@
 from InformationRetrieval import *
 
 
-username = "d3bde2d7-ee5a-46a1-a8e5-c765787a99ab"
-password = "q6om1v4CzEdU"
+username = "621a09a8-d733-4747-9b44-c9cc0419c119"
+password = "ljw8cFGxXfmO"
 
 # Create InformationRetrieval instance to handle analysis
 retrieval = InformationRetrieval(username=username,
@@ -12,7 +12,7 @@ retrieval = InformationRetrieval(username=username,
 retrieval.add_features_and_weights(['keywords', 'concepts', 'entities'], [1, 1, 1])
 #
 # # Add a test query
-# retrieval.add_source("Gambling should be outlawed in the United States", SourceType.query)
+retrieval.add_source("Gambling should be outlawed in the United States", SourceType.query)
 retrieval.add_source("The existence of God is undeniable.", SourceType.query)
 # retrieval.add_source("God God God God Existence of God God Existence", SourceType.query)
 # retrieval.add_source("Gun laws are too strict in America", SourceType.query)
@@ -48,13 +48,22 @@ retrieval.add_source("The existence of God is undeniable.", SourceType.query)
 # file_guns = open("Gun_control", "r+")
 # guns = file_guns.read()
 
-file_god = open("Existence_of_God", "r+")
+file_god = open("sentences/Existence_of_God", "r+", encoding="utf-8")
+file_gambling = open("sentences/Gambling", "r+", encoding="utf-8")
+
 god = file_god.read()
+gambling = file_gambling.read()
+
 
 #
 # retrieval.add_source(gambling, SourceType.document)
 # retrieval.add_source(guns, SourceType.document)
+retrieval.add_source(gambling, SourceType.document)
 retrieval.add_source(god, SourceType.document)
+
+
+# for passage in retrieval.documents[0].passages:
+#     print(passage.text)
 
 
 sentences = retrieval.get_summary(n_docs=1, n_passages=5, n_sentences=5)

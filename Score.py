@@ -42,15 +42,15 @@ class Score:
 
         for query_element in query_analysis:
             for source_element in source_analysis:
-                score += Score.element_score(query_element, source_element, feature)
+                score += Score.element_score(query_element, source_element, feature, query_analysis, source_analysis)
         return score
 
     # Calculates score for individual elements of query-document pair analysis
     @staticmethod
-    def element_score(query_element, document_element, feature):
+    def element_score(query_element, document_element, feature, query_analysis, source_analysis):
         # These keys should be different for different features
         if feature.name == "keywords" or feature.name == "concepts" or feature.name == "entities":
-            return query_element['relevance'] * document_element['relevance'] * \
+            return (query_element['relevance'] / len(query_analysis)) * (document_element['relevance']/len(source_analysis)) * \
                    Score.element_similarity(query_element, document_element, feature)
         elif feature.name == "categories":
             return query_element['score'] * document_element['score'] * Score.element_similarity(query_element,
@@ -86,7 +86,7 @@ class Score:
         for query_word in query_words:
             for document_word in document_words:
                 score += Score.wu_palmer_similarity(query_word, document_word)
-        return score
+        return score / (len(query_word)*len(document_word))
 
     # Converts given words into WordNet objects
     @staticmethod
