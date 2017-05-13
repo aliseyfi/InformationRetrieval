@@ -16,16 +16,20 @@ class Passage(Source):
         def __init__(self, text, features):
             Source.__init__(self, features, SourceType.passage)
             self.text = text
+            self.document_id = 0
+            self.passage_id = 0
             self.sentences = self.get_sentences()
 
         # Returns list of Sentence objects and stores them in self.sentences
         def get_sentences(self):
-            # split_sentences = re.split('[.!?]', self.text)
             split_sentences = sent_tokenize(self.text)
             sentences = []
-            for sentence in split_sentences:
-                # self.sentences.append(Sentence(text = sentence, features = self.features))
-                sentences.append(Sentence(text = sentence, features = self.features))
+            for entry in split_sentences:
+                sentence = Sentence(text=entry, features=self.features)
+                sentence.document_id = self.document_id
+                sentence.passage_id = self.passage_id
+                sentence.sentence_id = len(sentences)
+                sentences.append(sentence)
             return sentences
 
 

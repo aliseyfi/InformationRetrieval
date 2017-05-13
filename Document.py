@@ -13,6 +13,7 @@ class Document(Source):
     def __init__(self, text, features):
         Source.__init__(self, features, SourceType.document)
         self.text = text
+        self.document_id = 0
         self.passages = self.get_passages()
 
     # Returns list of Passage objects and stores them in self.passages
@@ -20,8 +21,10 @@ class Document(Source):
         split_passages = re.split('\n\n', self.text)
         passages = []
         for paragraph in split_passages:
-            #self.passages.append(Passage(text=paragraph, features=self.features))
-            passages.append(Passage(text=paragraph, features=self.features))
+            passage = Passage(text=paragraph, features=self.features)
+            passage.document_id = self.document_id
+            passage.passage_id = len(passages)
+            passages.append(passage)
         return passages
 
     # Returns subset of self.passages with top n scoring passages for each query

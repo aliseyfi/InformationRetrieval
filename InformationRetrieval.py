@@ -25,7 +25,7 @@ class InformationRetrieval:
         self.documents = []
 
     # Adds given list of feature names and associated weights
-    # - any mismatch in name length vs. weight length assigns a weight of 0 to that feature
+    # - any mismatch in name length vs. weight lengt    h assigns a weight of 0 to that feature
     # - features and weights are combined into Feature objects which are appended to the instance's feature list
     def add_features_and_weights(self, feature_names, weights):
         problem_features = []
@@ -61,6 +61,7 @@ class InformationRetrieval:
         elif SourceType.document == kind:
             document = Document(text=data, features=self.features)
             document.analysis = self.analyze_source(source=document)
+            document.document_id = len(self.documents)
             self.documents.append(document)
 
     # Adds a query and runs analysis.
@@ -92,15 +93,12 @@ class InformationRetrieval:
         top_documents = []
         for document in self.documents:
             document.calculate_scores(self.queries)
-       # for document in self.documents:
-            #print(document.scores[0].weighted_score(), document.scores[1].weighted_score(), document.scores[2].weighted_score())
         # Go through all queries
         for query_index, query in enumerate(self.queries):
             # Sort the documents by their score on this query
             query_scores = sorted(self.documents,
                                   key=lambda doc: doc.scores[query_index].weighted_score(),
                                   reverse=True)
-          #  print(query_index, query_scores)
             # Select and store the top n documents
             top_documents.append(query_scores[:n])
         return top_documents

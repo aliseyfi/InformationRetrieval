@@ -1,8 +1,8 @@
 from InformationRetrieval import *
 
 
-username = "f2291678-5b43-445c-8cfb-0890b3a47969"
-password = "vk65ROc1bvte"
+username = "f97b81ce-7cab-4cfc-889a-efd669f9fd92"
+password = "7fj1TNByAYqx"
 
 # Create InformationRetrieval instance to handle analysis
 retrieval = InformationRetrieval(username=username,
@@ -10,10 +10,12 @@ retrieval = InformationRetrieval(username=username,
 
 # Add the list of wanted features
 retrieval.add_features_and_weights(['keywords', 'concepts', 'entities'], [1, 1, 1])
-#
+
 # # Add a test query
-retrieval.add_source("Gambling should be outlawed in the United States", SourceType.query)
-retrieval.add_source("The existence of God is undeniable.", SourceType.query)
+retrieval.add_source("How has immigration affected the United States economy", SourceType.query)
+retrieval.add_source("What crimes have immigrants commited in America", SourceType.query)
+# retrieval.add_source("Gambling should be outlawed for people under 18", SourceType.query)
+# retrieval.add_source("The existence of God is undeniable.", SourceType.query)
 # retrieval.add_source("God God God God Existence of God God Existence", SourceType.query)
 # retrieval.add_source("Gun laws are too strict in America", SourceType.query)
 # retrieval.add_source("Dogs are a great pet especially for Veterans", SourceType.query)
@@ -44,34 +46,46 @@ retrieval.add_source("The existence of God is undeniable.", SourceType.query)
 
 # file_gambling = open("Gambling", "r+")
 # gambling = file_gambling.read()
-
-# file_guns = open("Gun_control", "r+")
+#
+# file_god = open("God", "r+")
+# god = file_god.read()
+#
+# file_guns = open("Gun_control2", "r+")
 # guns = file_guns.read()
 
-file_god = open("sentences/Existence_of_God", "r+", encoding="utf-8")
-file_gambling = open("sentences/Gambling", "r+", encoding="utf-8")
+file_immigration = open("Immigration", "r+")
+immigration = file_immigration.read()
 
-god = file_god.read()
-gambling = file_gambling.read()
+file_immigration_and_crime = open("Immigration_and_crime", "r+")
+immigration_and_crime = file_immigration_and_crime.read()
+
+# file_god = open("sentences/Existence_of_God", "r+", encoding="utf-8")
+# file_gambling = open("sentences/Gambling", "r+", encoding="utf-8")
+#
+# god = file_god.read()
+# gambling = file_gambling.read()
 
 
 #
 # retrieval.add_source(gambling, SourceType.document)
 # retrieval.add_source(guns, SourceType.document)
-retrieval.add_source(gambling, SourceType.document)
-retrieval.add_source(god, SourceType.document)
-
+# retrieval.add_source(gambling, SourceType.document)
+# retrieval.add_source(god, SourceType.document)
+retrieval.add_source(immigration, SourceType.document)
+retrieval.add_source(immigration_and_crime, SourceType.document)
 
 # for passage in retrieval.documents[0].passages:
 #     print(passage.text)
 
 
-sentences = retrieval.get_summary(n_docs=1, n_passages=5, n_sentences=5)
+sentences = retrieval.get_summary(n_docs=2, n_passages=2, n_sentences=7)
 
 for query_index, query in enumerate(retrieval.queries):
     print("Query: ", query.text)
     for sentence in sentences[query_index]:
         print("\tText:", sentence.text)
+        print("\tDocument ID: %i, Passage ID: %i, Sentence ID: %i" % (sentence.document_id, sentence.passage_id,
+              sentence.sentence_id))
         print("\t\tScore:", sentence.scores[query_index].weighted_score(), "\n\n")
 
 

@@ -10,4 +10,7 @@ class Sentence(Source):
         def __init__(self, text, features):
             Source.__init__(self, features, SourceType.sentence)
             self.text = text
+            self.document_id = 0
+            self.passage_id = 0
+            self.sentence_id = 0
 
